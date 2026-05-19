@@ -3,7 +3,7 @@
  * Standalone implementation for Model Context Protocol
  */
 
-const http = require('http');
+import http from 'http';
 
 const API_URL = process.env.ECMR_API_URL || 'https://ecmr.api.cargoffer.com';
 let API_KEY = process.env.ECMR_API_KEY || '';
@@ -47,7 +47,6 @@ async function handleRequest(req) {
   
   try {
     let result;
-    const [tool, ...rest] = method.split('_');
     
     switch(method) {
       // Auth
@@ -103,6 +102,9 @@ async function handleRequest(req) {
   }
 }
 
+// Tool definitions (imported from tools.js)
+import { toolDefinitions } from './tools.js';
+
 // Server startup
 const PORT = process.env.PORT || 3000;
 
@@ -143,4 +145,4 @@ server.listen(PORT, () => {
   console.log(`API: ${API_URL}`);
 });
 
-module.exports = { handleRequest };
+export default { handleRequest };
