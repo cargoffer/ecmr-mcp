@@ -1,0 +1,15 @@
+{
+  "name": "@cargoffer/ecmr-mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol server for Cargoffer ECMR API",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": ["model-context-protocol", "mcp", "ecmr", "cargoffer", "transport", "logistics", "ai", "agents"],
+  "repository": { "type": "git", "url": "https://github.com/cargoffer/ecmr-mcp" },
+  "author": "Cargoffer",
+  "license": "MIT"
+}
