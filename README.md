@@ -1,195 +1,177 @@
-# ECMR MCP Server — Model Context Protocol for Cargoffer ECMR API
+# ECMR MCP Server
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![npm](https://img.shields.io/badge/npm-v0.1.0-blue)](https://www.npmjs.com/package/@cargoffer/ecmr-mcp)
-[![ECMR API](https://img.shields.io/badge/ECMR%20API-1.0.0-blue)](https://ecmr.api.cargoffer.com)
+[![MCP Version](https://img.shields.io/badge/MCP-1.0.0-blue)](https://modelcontextprotocol.io)
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green)](https://nodejs.org)
+[![GitHub Release](https://img.shields.io/github/v/release/cargoffer/ecmr-mcp)](https://github.com/cargoffer/ecmr-mcp/releases)
 
-**Connect Claude Code, OpenAI Agents, and other MCP clients to Cargoffer ECMR API for transport logistics automation.**
+Model Context Protocol server for **Cargoffer ECMR** (Electronic Consignment Note) API — enables AI agents and LLMs to interact with the Cargoffer ECMR system for digital waybills.
 
 ## What is this?
 
-A **Model Context Protocol (MCP)** server that exposes Cargoffer ECMR API functionality as AI-accessible tools. Enables AI agents to:
-- Create and manage electronic consignment notes (eCMR)
-- Handle digital signatures
-- Manage drivers and vehicles
-- Generate/validate QR codes
+This MCP server exposes the Cargoffer ECMR API as tools for AI agents using the [Model Context Protocol](https://modelcontextprotocol.io). It provides:
 
-## Keywords (for AI/LLM discovery)
+- **30+ tools** for eCMR management, signatures, QR codes
+- **JSON-RPC 2.0** interface
+- **Production-ready** with https://ecmr.api.release.cargoffer.com
+- **Standalone** (no dependencies beyond Node.js)
 
-```
-model context protocol, mcp server, ecmr, electronic consignment note,
-cargoffer, transport logistics, ai agents, claude code, openai agents,
-digital freight, transportation, fleet management,
-driver management, vehicle management, qr code, electronic signature,
-documento electronico de transporte, CMR, DeCA, documento control administrativo,
-logistics API, fleet API, transport API Spain, ADR 2026
-```
+## Use Cases
+
+- AI agents creating electronic CMR waybills
+- Managing digital signatures for pickup and delivery
+- Generating and validating QR codes
+- Downloading PDF waybills
+- Tracking shipments
+
+## Features
+
+### Auth (2 tools)
+- Login
+- Register
+
+### Addresses (5 tools)
+- List/Create/Update/Delete addresses
+
+### Drivers (4 tools)
+- List/Create/Update/Delete drivers
+
+### Vehicles (4 tools)
+- List/Create/Update/Delete vehicles
+
+### eCMR Core (6 tools)
+- Create/Get/Update/Delete eCMR
+- Lock eCMR (legally close)
+- List eCMRs
+
+### Signatures (4 tools)
+- Sign as sender
+- Sign pickup
+- Sign delivery
+- List pending signatures
+
+### QR / PDF (3 tools)
+- Generate QR code
+- Validate QR code
+- Get PDF
+
+### Files (2 tools)
+- Upload file
+- Download file
+
+### Send (1 tool)
+- Send eCMR to receiver
 
 ## Quick Start
 
-### 1. Connect via MCP
-
 ```bash
-# Add to Claude Code / OpenAI Agents config
-npm install @cargoffer/ecmr-mcp
+# Clone
+git clone https://github.com/cargoffer/ecmr-mcp.git
+cd ecmr-mcp
 
-# Or run standalone
-npx @cargoffer/ecmr-mcp
-```
-
-### 2. Use Tools
-
-```
-Tool: ecmr_create
-  - senderCompanyName: "Your Company SL"
-  - receiverCompanyName: "Client SL"
-  - fromAddress: "Calle A 1, Madrid"
-  - toAddress: "Calle B 1, Barcelona"
-  - goodsDescription: "Mercancía general"
-  - packages: 2
-  - weight: 500
-
-→ Returns: { service_code: "ECM-XXX", status: "draft" }
-```
-
-## Available Tools
-
-### Authentication
-
-| Tool | Description |
-|------|-------------|
-| `ecmr_auth_login` | Login to ECMR API |
-| `ecmr_auth_register` | Register new user |
-
-### Addresses
-
-| Tool | Description |
-|------|-------------|
-| `ecmr_addresses_list` | List addresses |
-| `ecmr_addresses_create` | Create address |
-
-### Drivers
-
-| Tool | Description |
-|------|-------------|
-| `ecmr_drivers_list` | List drivers |
-| `ecmr_drivers_create` | Create driver |
-| `ecmr_drivers_update` | Update driver |
-| `ecmr_drivers_delete` | Delete driver |
-
-### Vehicles
-
-| Tool | Description |
-|------|-------------|
-| `ecmr_vehicles_list` | List vehicles |
-| `ecmr_vehicles_create` | Create vehicle |
-
-### eCMR
-
-| Tool | Description |
-|------|-------------|
-| `ecmr_create` | Create eCMR |
-| `ecmr_get` | Get eCMR by code |
-| `ecmr_update` | Update eCMR |
-| `ecmr_delete` | Delete eCMR |
-| `ecmr_lock` | Lock eCMR (legally close) |
-
-### Signatures
-
-| Tool | Description |
-|------|-------------|
-| `ecmr_sign_sender` | Sign as sender |
-| `ecmr_sign_pickup` | Sign pickup |
-| `ecmr_sign_delivery` | Sign delivery |
-| `ecmr_signatures_list` | List pending signatures |
-
-### QR Codes
-
-| Tool | Description |
-|------|-------------|
-| `ecmr_qr_generate` | Generate QR code |
-| `ecmr_qr_validate` | Validate QR code |
-
-## Configuration
-
-```bash
-# Environment variables
+# Configure with your credentials
 export ECMR_API_KEY="your-api-key"
-export ECMR_API_URL="https://ecmr.api.cargoffer.com"  # Production
-# or
-export ECMR_API_URL="https://ecmr.api.demo.cargoffer.com"  # Demo
-export PORT=3000
+
+# Run
+node src/server.js
 ```
 
-## MCP Client Integration
+## Environment Variables
 
-### Claude Code
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `ECMR_API_KEY` | Cargoffer API key | - |
+| `ECMR_API_URL` | API base URL | https://ecmr.api.release.cargoffer.com |
+| `PORT` | Server port | 3000 |
+
+### Local Development
+
+```bash
+# Use local backend
+ECMR_API_URL=http://localhost:8090 ECMR_API_KEY=your-key node src/server.js
+
+# Or copy .env.example
+cp .env.example .env
+# Edit .env with your values
+node src/server.js
+```
+
+## API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/health` | GET | Health check |
+| `/tools` | GET | List available tools |
+| `/` | POST | JSON-RPC 2.0 endpoint |
+
+## Example Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "ecmr_auth_login",
+  "params": {
+    "email": "user@example.com",
+    "password": "password123"
+  }
+}
+```
+
+## Example Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "status": 200,
+    "data": "jwt-token-here"
+  }
+}
+```
+
+## Integration Examples
+
+### Claude Desktop
 
 ```json
 {
   "mcpServers": {
     "ecmr": {
-      "command": "npx",
-      "args": ["@cargoffer/ecmr-mcp"],
+      "command": "node",
+      "args": ["/path/to/ecmr-mcp/src/server.js"],
       "env": {
-        "ECMR_API_KEY": "your-key"
+        "ECMR_API_KEY": "your-api-key"
       }
     }
   }
 }
 ```
 
-### OpenAI Agents
+### Direct HTTP
 
-```typescript
-const ecmrClient = new MCPClient({
-  command: "npx",
-  args: ["@cargoffer/ecmr-mcp"]
-});
-
-const result = await ecmrClient.callTool("ecmr_create", {
-  senderCompanyName: "ACME SL",
-  receiverCompanyName: "Client SL",
-  fromAddress: "Madrid",
-  toAddress: "Barcelona"
-});
+```bash
+curl -X POST http://localhost:3000 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "ecmr_auth_login",
+    "params": {"email": "user@example.com", "password": "pass"}
+  }'
 ```
 
-## API Reference
+## Getting Credentials
 
-Base URL: `https://ecmr.api.cargoffer.com`
-
-### Create eCMR
-
-```typescript
-POST /ecmr
-{
-  sender: { company_name: "Company", cif: "B12345678" },
-  receiver: { company_name: "Client", cif: "B87654321" },
-  from: { address: "Origin", postal_code: "28001", country: "ES" },
-  to: { address: "Destination", postal_code: "08001", country: "ES" },
-  goods: { description: "Goods", packages: 2, weight: 500 }
-}
-```
-
-### Signatures
-
-```typescript
-// Sign pickup
-PUT /ecmr/sign/pickup/{service_code}
-{ signature: "base64-encoded-signature" }
-
-// Sign delivery
-PUT /ecmr/sign/delivery/{service_code}
-{ signature: "base64-encoded-signature" }
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Submit a Pull Request
+Contact Cargoffer to get API access:
+- Email: cto@cargoffer.com
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+MIT License - See LICENSE file for details
+
+## GitHub
+
+- Repository: https://github.com/cargoffer/ecmr-mcp
+- Issues: https://github.com/cargoffer/ecmr-mcp/issues

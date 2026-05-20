@@ -1,15 +1,37 @@
 {
   "name": "@cargoffer/ecmr-mcp",
-  "version": "0.1.0",
-  "description": "Model Context Protocol server for Cargoffer ECMR API",
-  "main": "src/index.js",
+  "version": "1.0.0",
+  "description": "MCP Server for Cargoffer ECMR API - Model Context Protocol",
+  "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js"
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
   },
-  "keywords": ["model-context-protocol", "mcp", "ecmr", "cargoffer", "transport", "logistics", "ai", "agents"],
-  "repository": { "type": "git", "url": "https://github.com/cargoffer/ecmr-mcp" },
+  "keywords": [
+    "ecmr",
+    "electronic consignment note",
+    "mcp",
+    "model context protocol",
+    "cargoffer",
+    "logistics",
+    "transportation",
+    "ai agents",
+    "llm tools",
+    "cmr",
+    "digital waybill"
+  ],
   "author": "Cargoffer",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cargoffer/ecmr-mcp"
+  },
+  "homepage": "https://github.com/cargoffer/ecmr-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/cargoffer/ecmr-mcp/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
