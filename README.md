@@ -1,4 +1,4 @@
-# ecmr-mcp: Electronic Consignment Note (eCMR) MCP Server for AI Agents
+# Operational MCP layer for European road logistics documents
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![MCP](https://img.shields.io/badge/MCP-1.0.0-blue)](https://modelcontextprotocol.io)
@@ -6,36 +6,37 @@
 [![GitHub Release](https://img.shields.io/github/v/release/cargoffer/ecmr-mcp)](https://github.com/cargoffer/ecmr-mcp/releases)
 [![GitHub Stars](https://img.shields.io/github/stars/cargoffer/ecmr-mcp?style=social)](https://github.com/cargoffer/ecmr-mcp)
 
-**Model Context Protocol (MCP) server** that connects AI agents (Claude Desktop, Cursor, Cline, etc.) to the Cargoffer ECMR API — enabling LLMs to create, manage, sign, and track **electronic consignment notes (eCMR / digital waybills)** programmatically.
+**An eCMR MCP server** that turns the Cargoffer ECMR API into callable tools for AI agents (Claude Desktop, Cursor, Cline, Continue, etc.). It lets LLMs create, sign, manage, and track **electronic consignment notes (eCMR / digital waybills)** — the legally binding document for international road freight — entirely through natural language.
+
+> **What problem does it solve?** European road transport still relies on paper CMR waybills that get lost, delayed, or rejected at borders. This MCP server digitizes the full consignment lifecycle so AI agents can orchestrate document workflows without a human touching a PDF form.
+>
+> **What makes it different?** Unlike generic document-generation APIs, this exposes the complete eCMR lifecycle as structured MCP tools — authentication, address books, driver/vehicle registries, digital signature collection (sender, pickup, delivery), QR code validation, and PDF generation — all aligned with the UN/CMR convention legal framework.
+>
+> **What integration does it enable?** Any MCP-compatible AI client can invoke 30+ logistics document tools as if they were native functions. An LLM can register a carrier, create a waybill, collect three-party signatures, lock it legally, generate a QR, and produce the final PDF — all in one conversation.
+>
+> **What does "easy integration" mean concretely?** Copy-paste one JSON config block into your Claude Desktop config, set one environment variable (`ECMR_API_KEY`), and your AI assistant can immediately start managing real European consignment notes. No SDKs, no OAuth flows, no middleware servers.
 
 ---
 
-## Quick Start
+## Why this MCP exists
 
-```bash
-git clone https://github.com/cargoffer/ecmr-mcp.git
-cd ecmr-mcp
-export ECMR_API_KEY="your-api-key"
-node src/server.js
-```
+Every day, hundreds of thousands of trucks cross European borders with paper CMR waybills. The paper gets wet, lost, or stuck under a seat. When an inspection happens, drivers scramble. When a dispute arises, nobody has the signed original. The eCMR (electronic CMR) convention solved the legal framework, but the tooling has stayed locked inside proprietary logistics suites — invisible to the AI agents that shippers and forwarders are starting to use for operations.
 
-Server starts on `http://localhost:3000` with a JSON-RPC 2.0 endpoint.
+This MCP server exposes the [Cargoffer ECMR API](https://ecmr.api.release.cargoffer.com) as first-class LLM tools so that an AI agent — not a human dispatcher — can handle the entire consignment workflow from creation through legally binding signature collection. It makes **logistics document automation** possible inside the agent's native reasoning loop.
 
 ---
 
-## What is this?
+## MCP Capabilities
 
-Transport logistics rely on the **CMR waybill** — the standard document for international road freight. This MCP server digitizes that process via the [Cargoffer ECMR API](https://ecmr.api.release.cargoffer.com), exposing:
-
-- **30+ MCP tools** for full eCMR lifecycle management
-- **Digital signatures** for sender, pickup, and delivery
-- **QR code generation & validation**
-- **PDF generation** of signed waybills
-- **Address, driver, and vehicle management**
-- **File attachments** (photos, documents)
-- **Secure authentication** (JWT-based)
-
-AI agents can handle the entire consignment workflow — from creating a waybill to collecting legally binding signatures — without manual intervention.
+- **30+ MCP tools** covering the full eCMR lifecycle — no tool is hidden behind a submenu
+- **Digital signature orchestration** — collect sender, pickup, and delivery signatures in sequence
+- **QR code generation and validation** — every signed waybill gets a scannable proof-of-authenticity
+- **PDF generation** — produce court-admissible PDFs from signed eCMRs
+- **Address, driver, and vehicle management** — reusable registries so agents don't repeat data entry
+- **File attachment support** — agents can upload delivery photos, inspection docs, or proof-of-damage
+- **JWT-based authentication** — the server handles token lifecycle transparently
+- **JSON-RPC 2.0** over HTTP — standard MCP transport, no custom protocol
+- **Zero runtime dependencies** beyond Node.js 18+ — no Docker, no database
 
 ---
 
@@ -74,6 +75,33 @@ AI agents can handle the entire consignment workflow — from creating a waybill
 | 📎 **Files** | `ecmr_upload_file` | Attach a file to an eCMR |
 | | `ecmr_download_file` | Download an attached file |
 | 📬 **Send** | `ecmr_send` | Send eCMR to receiver |
+
+---
+
+## Directory structure
+
+```
+ecmr-mcp/
+├── package.json          # Node.js 18+, ES module, @cargoffer/ecmr-mcp
+├── .env.example          # Environment variable template
+├── src/
+│   ├── server.js         # MCP server entry point (JSON-RPC 2.0 / HTTP)
+│   └── tools.js          # 30+ tool definitions mapped to ECMR API
+└── README.md
+```
+
+---
+
+## Quick Start
+
+```bash
+git clone https://github.com/cargoffer/ecmr-mcp.git
+cd ecmr-mcp
+export ECMR_API_KEY="your-api-key"
+node src/server.js
+```
+
+Server starts on `http://localhost:3000` with a JSON-RPC 2.0 endpoint.
 
 ---
 
@@ -117,7 +145,52 @@ curl -X POST http://localhost:3000 \
     "jsonrpc": "2.0",
     "id": 1,
     "method": "ecmr_auth_login",
-    "params": {"email": "user@example.com", "password": "..."
+    "params": {"email": "user@example.com", "password": "..."}
+  }'
+```
+
+---
+
+## MCP protocol in action
+
+**Create a new electronic consignment note:**
+
+```bash
+curl -X POST http://localhost:3000 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "ecmr_create",
+    "params": {
+      "senderAddressId": "addr_123",
+      "deliveryAddressId": "addr_456",
+      "driverId": "driver_789",
+      "vehicleId": "veh_012",
+      "goods": {
+        "description": "Electronic components",
+        "weight": 1200,
+        "packages": 24
+      }
+    }
+  }'
+```
+
+**Collect a signature:**
+
+```bash
+curl -X POST http://localhost:3000 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 3,
+    "method": "ecmr_sign_sender",
+    "params": {
+      "ecmrId": "ecmr_abc123",
+      "signatureData": "base64-encoded-signature-image"
+    }
   }'
 ```
 
@@ -162,6 +235,12 @@ ECMR_API_URL=http://localhost:8090 ECMR_API_KEY=your-key node src/server.js
 | `/health` | GET | Health check |
 | `/tools` | GET | List all available MCP tools |
 | `/` | POST | JSON-RPC 2.0 endpoint |
+
+---
+
+## Semantic tags
+
+`eCMR` `electronic consignment note` `MCP server` `Model Context Protocol` `European road transport` `logistics document automation` `CMR waybill` `digital waybill` `AI agents` `LLM tools` `trucking` `freight` `Cargoffer` `JSON-RPC` `supply chain` `transportation` `digital signature` `QR code` `waybill PDF` `road freight` `easy MCP integration`
 
 ---
 
