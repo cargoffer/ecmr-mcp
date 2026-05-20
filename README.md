@@ -24,6 +24,17 @@ Every day, hundreds of thousands of trucks cross European borders with paper CMR
 
 This MCP server exposes the [Cargoffer ECMR API](https://ecmr.api.release.cargoffer.com) as first-class LLM tools so that an AI agent — not a human dispatcher — can handle the entire consignment workflow from creation through legally binding signature collection. It makes **logistics document automation** possible inside the agent's native reasoning loop.
 
+## AI Agent Capabilities
+
+| Capability | What the AI can do |
+|---|---|
+| **Document digitization** | Create, edit, lock (finalize) eCMR documents from natural language |
+| **Logistics operations** | Manage addresses, fleet vehicles, and driver records |
+| **Digital signing** | Sign documents as sender, pickup, or delivery — legally binding |
+| **Verification** | Generate and validate QR codes for traceability |
+| **PDF output** | Generate signed PDF waybills automatically |
+| **File attachments** | Attach photos, delivery proof, and supporting docs |
+
 ---
 
 ## MCP Capabilities
