@@ -48,4 +48,41 @@ export const toolDefinitions = [
   
   // SEND
   { name: "ecmr_send", description: "Send eCMR to receiver", inputSchema: { type: "object", properties: { serviceCode: { type: "string" } }, required: ["serviceCode"] } },
+
+  // ============================================================
+  // DECA - Documento Electrónico de Control de Aduanas
+  // ============================================================
+  
+  // DECA List/Create/Get
+  { name: "deca_list", description: "List DECA documents", inputSchema: { type: "object", properties: { limit: { type: "number" }, estado: { type: "string", enum: ["generado", "enviado_ministerio", "comprobado_recibido", "cerrado"] }, company: { type: "string" } } } },
+  { name: "deca_create", description: "Create DECA manually", inputSchema: { type: "object", properties: { company: { type: "string" }, service_code: { type: "string" }, sistema: { type: "string", enum: ["qr", "codigo_numerico", "ambos"] } }, required: ["company"] } },
+  { name: "deca_get", description: "Get DECA by service code", inputSchema: { type: "object", properties: { serviceCode: { type: "string" } }, required: ["serviceCode"] } },
+  
+  // DECA Documents
+  { name: "deca_documento_attach", description: "Attach document to DECA", inputSchema: { type: "object", properties: { serviceCode: { type: "string" }, tipo: { type: "string", enum: ["cmr", "licencia", "seguro", "tacografo", "adr", "otros"] } }, required: ["serviceCode", "tipo"] } },
+  
+  // DECA QR (Sistema 2)
+  { name: "deca_qr_generate", description: "Generate QR code for DECA", inputSchema: { type: "object", properties: { serviceCode: { type: "string" } }, required: ["serviceCode"] } },
+  
+  // DECA PDF
+  { name: "deca_pdf_download", description: "Generate and download PDF/A for DECA", inputSchema: { type: "object", properties: { serviceCode: { type: "string" } }, required: ["serviceCode"] } },
+  
+  // DECA Signature
+  { name: "deca_signature_register", description: "Register electronic signature for DECA", inputSchema: { type: "object", properties: { serviceCode: { type: "string" }, signature: { type: "string" } }, required: ["serviceCode", "signature"] } },
+  
+  // DECA Integrity
+  { name: "deca_integrity_verify", description: "Verify DECA integrity via hash", inputSchema: { type: "object", properties: { serviceCode: { type: "string" } }, required: ["serviceCode"] } },
+  
+  // DECA Ministry
+  { name: "deca_send_ministerio", description: "Send DECA to Ministry of Transport", inputSchema: { type: "object", properties: { serviceCode: { type: "string" } }, required: ["serviceCode"] } },
+  
+  // DECA Audit
+  { name: "deca_audit_log", description: "Get audit log for DECA", inputSchema: { type: "object", properties: { serviceCode: { type: "string" } }, required: ["serviceCode"] } },
+  
+  // DECA Stats
+  { name: "deca_estadisticas", description: "Get DECA statistics", inputSchema: { type: "object" } },
+  
+  // DECA Public (no auth required)
+  { name: "deca_public_validate", description: "Validate DECA by numeric code (Sistema 1)", inputSchema: { type: "object", properties: { codigo: { type: "string" } }, required: ["codigo"] } },
+  { name: "deca_public_view", description: "View DECA publicly via QR token (Sistema 2)", inputSchema: { type: "object", properties: { serviceCode: { type: "string" }, token: { type: "string" } }, required: ["serviceCode"] } },
 ];
