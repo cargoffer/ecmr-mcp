@@ -1,6 +1,6 @@
 {
   "name": "@cargoffer/ecmr-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MCP Server for Cargoffer ECMR API - Model Context Protocol",
   "main": "src/server.js",
   "type": "module",
