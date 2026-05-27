@@ -103,6 +103,35 @@ ecmr-mcp/
 
 ---
 
+---
+
+## Authentication
+
+To use this MCP server, you need an API key from the eCMR platform.
+
+**Register:** https://ecmr.cargoffer.com
+
+Create an account and get your API key from your profile settings. Then configure:
+
+```bash
+export ECMR_API_KEY="your-api-key"
+```
+
+Or in your MCP client config:
+
+```json
+{
+  "mcpServers": {
+    "ecmr": {
+      "command": "...",
+      "env": {
+        "ECMR_API_KEY": "your-api-key-from-ecmr"
+      }
+    }
+  }
+}
+```
+
 ## Quick Start
 
 ```bash
