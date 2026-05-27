@@ -267,10 +267,10 @@ async function handleRequest(req) {
       // COMPANY DATA
       // ============================================================
       case 'ecmr_company_get':
-        result = await apiRequest('GET', '/company');
+        result = await apiRequest('GET', '/company/');
         break;
       case 'ecmr_company_update':
-        result = await apiRequest('PUT', '/company', params);
+        result = await apiRequest('PUT', '/company/', params);
         break;
       case 'ecmr_company_logo':
         result = await apiRequest('POST', '/company/logo', params);
@@ -280,10 +280,10 @@ async function handleRequest(req) {
       // CATEGORIES
       // ============================================================
       case 'ecmr_categories_list':
-        result = await apiRequest('GET', '/categories/');
+        result = await apiRequest('GET', '/categories/find');
         break;
       case 'ecmr_categories_find':
-        result = await apiRequest('GET', `/categories/find?name=${encodeURIComponent(params.name)}`);
+        result = await apiRequest('GET', `/categories/findfind?name=${encodeURIComponent(params.name)}`);
         break;
 
       // ============================================================
