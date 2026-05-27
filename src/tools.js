@@ -125,4 +125,57 @@ export const toolDefinitions = [
   { name: "ecmr_company_get", description: "Get company data", inputSchema: { type: "object" } },
   { name: "ecmr_company_update", description: "Update company data", inputSchema: { type: "object", properties: { name: { type: "string" }, cif: { type: "string" }, address: { type: "string" } } } },
   { name: "ecmr_company_logo", description: "Upload company logo", inputSchema: { type: "object", properties: { logo: { type: "string" } }, required: ["logo"] } },
+
+  // ============================================================
+  // CATEGORIES - Goods type lookups
+  // ============================================================
+  { name: "ecmr_categories_list", description: "List goods categories", inputSchema: { type: "object" } },
+  { name: "ecmr_categories_find", description: "Find category by name", inputSchema: { type: "object", properties: { name: { type: "string" } }, required: ["name"] } },
+
+  // ============================================================
+  // COUNTRY - Country list
+  // ============================================================
+  { name: "ecmr_country_list", description: "List countries", inputSchema: { type: "object" } },
+
+  // ============================================================
+  // BILLING / PRICING
+  // ============================================================
+  { name: "ecmr_pricing_tiers", description: "Get pricing tiers", inputSchema: { type: "object" } },
+  { name: "ecmr_billing_checkout", description: "Create checkout session", inputSchema: { type: "object", properties: { priceId: { type: "string" } }, required: ["priceId"] } },
+  { name: "ecmr_billing_portal", description: "Create billing portal session", inputSchema: { type: "object" } },
+  { name: "ecmr_billing_check_stripe", description: "Check Stripe subscription status", inputSchema: { type: "object" } },
+
+  // ============================================================
+  // APIKEYS
+  // ============================================================
+  { name: "ecmr_apikey_list", description: "List API keys", inputSchema: { type: "object" } },
+  { name: "ecmr_apikey_create", description: "Create API key", inputSchema: { type: "object", properties: { name: { type: "string" } }, required: ["name"] } },
+  { name: "ecmr_apikey_revoke", description: "Revoke API key", inputSchema: { type: "object", properties: { tempCode: { type: "string" } }, required: ["tempCode"] } },
+
+  // ============================================================
+  // ACCOUNT TYPE
+  // ============================================================
+  { name: "ecmr_account_type", description: "Get account type info", inputSchema: { type: "object" } },
+
+  // ============================================================
+  // RECOVERY / PASSWORD RESET
+  // ============================================================
+  { name: "ecmr_recovery_request", description: "Request password recovery", inputSchema: { type: "object", properties: { email: { type: "string" } }, required: ["email"] } },
+  { name: "ecmr_recovery_reset", description: "Reset password with token", inputSchema: { type: "object", properties: { token: { type: "string" }, password: { type: "string" } }, required: ["token", "password"] } },
+
+  // ============================================================
+  // ECMR TRUCKER ASSIGNMENT
+  // ============================================================
+  { name: "ecmr_trucker_info", description: "Get trucker info for eCMR", inputSchema: { type: "object", properties: { serviceCode: { type: "string" } }, required: ["serviceCode"] } },
+  { name: "ecmr_trucker_assign", description: "Assign trucker to eCMR", inputSchema: { type: "object", properties: { serviceCode: { type: "string" }, truckerId: { type: "string" } }, required: ["serviceCode", "truckerId"] } },
+
+  // ============================================================
+  // ECMR COMPANY INFO
+  // ============================================================
+  { name: "ecmr_company_info", description: "Get company info for eCMR", inputSchema: { type: "object", properties: { serviceCode: { type: "string" } }, required: ["serviceCode"] } },
+
+  // ============================================================
+  // ECMR CUSTOM CODE
+  // ============================================================
+  { name: "ecmr_customcode", description: "Get custom code for eCMR", inputSchema: { type: "object", properties: { serviceCode: { type: "string" } }, required: ["serviceCode"] } },
 ];

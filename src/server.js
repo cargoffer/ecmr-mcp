@@ -276,6 +276,85 @@ async function handleRequest(req) {
         result = await apiRequest('POST', '/company/logo', params);
         break;
 
+      // ============================================================
+      // CATEGORIES
+      // ============================================================
+      case 'ecmr_categories_list':
+        result = await apiRequest('GET', '/categories/');
+        break;
+      case 'ecmr_categories_find':
+        result = await apiRequest('GET', `/categories/find?name=${encodeURIComponent(params.name)}`);
+        break;
+
+      // ============================================================
+      // COUNTRY
+      // ============================================================
+      case 'ecmr_country_list':
+        result = await apiRequest('GET', '/country/');
+        break;
+
+      // ============================================================
+      // BILLING / PRICING
+      // ============================================================
+      case 'ecmr_pricing_tiers':
+        result = await apiRequest('GET', '/billing/pricing-tiers');
+        break;
+      case 'ecmr_billing_checkout':
+        result = await apiRequest('POST', '/billing/create-checkout-session', { priceId: params.priceId });
+        break;
+      case 'ecmr_billing_portal':
+        result = await apiRequest('POST', '/billing/create-portal-session', params);
+        break;
+      case 'ecmr_billing_check_stripe':
+        result = await apiRequest('GET', '/billing/check-stripe');
+        break;
+
+      // ============================================================
+      // APIKEYS
+      // ============================================================
+      case 'ecmr_apikey_list':
+        result = await apiRequest('GET', '/apikeys/');
+        break;
+      case 'ecmr_apikey_create':
+        result = await apiRequest('POST', '/apikeys/', { name: params.name });
+        break;
+      case 'ecmr_apikey_revoke':
+        result = await apiRequest('DELETE', `/apikeys/${params.tempCode}`);
+        break;
+
+      // ============================================================
+      // ACCOUNT TYPE
+      // ============================================================
+      case 'ecmr_account_type':
+        result = await apiRequest('GET', '/auth/account_type');
+        break;
+
+      // ============================================================
+      // PASSWORD RECOVERY
+      // ============================================================
+      case 'ecmr_recovery_request':
+        result = await apiRequest('POST', '/auth/recovery', { email: params.email });
+        break;
+      case 'ecmr_recovery_reset':
+        result = await apiRequest('POST', '/auth/recovery_password', { token: params.token, password: params.password });
+        break;
+
+      // ============================================================
+      // ECMR ASSIGNMENTS
+      // ============================================================
+      case 'ecmr_trucker_info':
+        result = await apiRequest('GET', `/ecmr/trucker-info/${params.serviceCode}`);
+        break;
+      case 'ecmr_trucker_assign':
+        result = await apiRequest('PUT', `/ecmr/trucker-assign/${params.serviceCode}`, { truckerId: params.truckerId });
+        break;
+      case 'ecmr_company_info':
+        result = await apiRequest('GET', `/ecmr/company-info/${params.serviceCode}`);
+        break;
+      case 'ecmr_customcode':
+        result = await apiRequest('GET', `/ecmr/customcode/${params.serviceCode}`);
+        break;
+
       default:
         throw new Error(`Unknown method: ${method}`);
     }
