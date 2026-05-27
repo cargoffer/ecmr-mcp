@@ -85,4 +85,44 @@ export const toolDefinitions = [
   // DECA Public (no auth required)
   { name: "deca_public_validate", description: "Validate DECA by numeric code (Sistema 1)", inputSchema: { type: "object", properties: { codigo: { type: "string" } }, required: ["codigo"] } },
   { name: "deca_public_view", description: "View DECA publicly via QR token (Sistema 2)", inputSchema: { type: "object", properties: { serviceCode: { type: "string" }, token: { type: "string" } }, required: ["serviceCode"] } },
+
+  // ============================================================
+  // BILLING - Invoice management
+  // ============================================================
+  { name: "ecmr_invoices_list", description: "List invoices", inputSchema: { type: "object", properties: { limit: { type: "number" } } } },
+  { name: "ecmr_invoices_get", description: "Get invoice by ID", inputSchema: { type: "object", properties: { id: { type: "string" } }, required: ["id"] } },
+  { name: "ecmr_invoices_create", description: "Create invoice", inputSchema: { type: "object", properties: { amount: { type: "number" }, description: { type: "string" } } } },
+  { name: "ecmr_invoices_pdf", description: "Get invoice PDF", inputSchema: { type: "object", properties: { id: { type: "string" } }, required: ["id"] } },
+
+  // ============================================================
+  // ISSUES - Problem reporting
+  // ============================================================
+  { name: "ecmr_issues_list", description: "List issues", inputSchema: { type: "object", properties: { limit: { type: "number" } } } },
+  { name: "ecmr_issues_create", description: "Create issue", inputSchema: { type: "object", properties: { title: { type: "string" }, description: { type: "string" }, ecmr: { type: "string" } }, required: ["title"] } },
+  { name: "ecmr_issues_get", description: "Get issue by ID", inputSchema: { type: "object", properties: { id: { type: "string" } }, required: ["id"] } },
+  { name: "ecmr_issues_update", description: "Update issue", inputSchema: { type: "object", properties: { id: { type: "string" }, status: { type: "string" } }, required: ["id"] } },
+  { name: "ecmr_issues_delete", description: "Delete issue", inputSchema: { type: "object", properties: { id: { type: "string" } }, required: ["id"] } },
+
+  // ============================================================
+  // NOTIFICATIONS
+  // ============================================================
+  { name: "ecmr_notifications_list", description: "List notifications", inputSchema: { type: "object", properties: { limit: { type: "number" } } } },
+  { name: "ecmr_notifications_mark_read", description: "Mark notification as read", inputSchema: { type: "object", properties: { id: { type: "string" } }, required: ["id"] } },
+  { name: "ecmr_notifications_delete", description: "Delete notification", inputSchema: { type: "object", properties: { id: { type: "string" } }, required: ["id"] } },
+
+  // ============================================================
+  // USERS / PROFILE
+  // ============================================================
+  { name: "ecmr_users_list", description: "List company users", inputSchema: { type: "object", properties: { limit: { type: "number" } } } },
+  { name: "ecmr_users_get", description: "Get user by ID", inputSchema: { type: "object", properties: { id: { type: "string" } }, required: ["id"] } },
+  { name: "ecmr_profile_get", description: "Get current user profile", inputSchema: { type: "object" } },
+  { name: "ecmr_profile_update", description: "Update current user profile", inputSchema: { type: "object", properties: { name: { type: "string" }, phone: { type: "string" } } } },
+  { name: "ecmr_logout", description: "Logout and clear token", inputSchema: { type: "object" } },
+
+  // ============================================================
+  // COMPANY DATA
+  // ============================================================
+  { name: "ecmr_company_get", description: "Get company data", inputSchema: { type: "object" } },
+  { name: "ecmr_company_update", description: "Update company data", inputSchema: { type: "object", properties: { name: { type: "string" }, cif: { type: "string" }, address: { type: "string" } } } },
+  { name: "ecmr_company_logo", description: "Upload company logo", inputSchema: { type: "object", properties: { logo: { type: "string" } }, required: ["logo"] } },
 ];

@@ -190,15 +190,104 @@ async function handleRequest(req) {
         result = await apiRequest('GET', `/ecmr/file/${params.serviceCode}`);
         break;
       
-      // SEND
+// SEND
       case 'ecmr_send':
         result = await apiRequest('POST', `/ecmr/send/${params.serviceCode}`, params);
         break;
-      
+
+      // ============================================================
+      // BILLING - Invoice management
+      // ============================================================
+      case 'ecmr_invoices_list':
+        result = await apiRequest('GET', `/invoices/?limit=${params?.limit || 50}`);
+        break;
+      case 'ecmr_invoices_get':
+        result = await apiRequest('GET', `/invoices/${params.id}`);
+        break;
+      case 'ecmr_invoices_create':
+        result = await apiRequest('POST', '/invoices/', params);
+        break;
+      case 'ecmr_invoices_pdf':
+        result = await apiRequest('GET', `/invoices/pdf/${params.id}`);
+        break;
+
+      // ============================================================
+      // ISSUES - Problem reporting
+      // ============================================================
+      case 'ecmr_issues_list':
+        result = await apiRequest('GET', `/issues/?limit=${params?.limit || 50}`);
+        break;
+      case 'ecmr_issues_create':
+        result = await apiRequest('POST', '/issues/', params);
+        break;
+      case 'ecmr_issues_get':
+        result = await apiRequest('GET', `/issues/${params.id}`);
+        break;
+      case 'ecmr_issues_update':
+        result = await apiRequest('PUT', `/issues/${params.id}`, params);
+        break;
+      case 'ecmr_issues_delete':
+        result = await apiRequest('DELETE', `/issues/${params.id}`);
+        break;
+
+      // ============================================================
+      // NOTIFICATIONS
+      // ============================================================
+      case 'ecmr_notifications_list':
+        result = await apiRequest('GET', `/notifications/?limit=${params?.limit || 50}`);
+        break;
+      case 'ecmr_notifications_mark_read':
+        result = await apiRequest('PUT', `/notifications/${params.id}/read`);
+        break;
+      case 'ecmr_notifications_delete':
+        result = await apiRequest('DELETE', `/notifications/${params.id}`);
+        break;
+
+      // ============================================================
+      // USERS / PROFILE
+      // ============================================================
+      case 'ecmr_users_list':
+        result = await apiRequest('GET', `/users/?limit=${params?.limit || 50}`);
+        break;
+      case 'ecmr_users_get':
+        result = await apiRequest('GET', `/users/${params.id}`);
+        break;
+      case 'ecmr_profile_get':
+        result = await apiRequest('GET', '/profile');
+        break;
+      case 'ecmr_profile_update':
+        result = await apiRequest('PUT', '/profile', params);
+        break;
+      case 'ecmr_logout':
+        JWT_TOKEN = '';
+        result = { success: true };
+        break;
+
+      // ============================================================
+      // COMPANY DATA
+      // ============================================================
+      case 'ecmr_company_get':
+        result = await apiRequest('GET', '/company');
+        break;
+      case 'ecmr_company_update':
+        result = await apiRequest('PUT', '/company', params);
+        break;
+      case 'ecmr_company_logo':
+        result = await apiRequest('POST', '/company/logo', params);
+        break;
+
       default:
         throw new Error(`Unknown method: ${method}`);
     }
-    
+
+    // Enhance auth error messages with guidance
+    if (result?.status === 401 || result?.status === 403) {
+      const msg = result.message || '';
+      if (msg.includes('NO_TOKEN') || msg.includes('token')) {
+        result.guidance = 'Usa ecmr_auth_login para obtener token o crea una cuenta con ecmr_auth_register';
+      }
+    }
+
     return { jsonrpc: '2.0', id, result };
   } catch (error) {
     return { jsonrpc: '2.0', id, error: { code: -32601, message: error.message } };
@@ -209,7 +298,7 @@ async function handleRequest(req) {
 import { toolDefinitions } from './tools.js';
 
 // Server startup
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3100;
 
 const server = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
