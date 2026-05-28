@@ -119,18 +119,11 @@ export const toolDefinitions = [
   { name: "ecmr_profile_update", description: "Update current user profile", inputSchema: { type: "object", properties: { name: { type: "string" }, phone: { type: "string" } } } },
   { name: "ecmr_logout", description: "Logout and clear token", inputSchema: { type: "object" } },
 
+// ============================================================
+  // CATEGORIES - Goods type lookups (PROD ONLY - not in demo)
   // ============================================================
-  // COMPANY DATA
-  // ============================================================
-  { name: "ecmr_company_get", description: "Get company data", inputSchema: { type: "object" } },
-  { name: "ecmr_company_update", description: "Update company data", inputSchema: { type: "object", properties: { name: { type: "string" }, cif: { type: "string" }, address: { type: "string" } } } },
-  { name: "ecmr_company_logo", description: "Upload company logo", inputSchema: { type: "object", properties: { logo: { type: "string" } }, required: ["logo"] } },
-
-  // ============================================================
-  // CATEGORIES - Goods type lookups
-  // ============================================================
-  { name: "ecmr_categories_list", description: "List goods categories", inputSchema: { type: "object" } },
-  { name: "ecmr_categories_find", description: "Find category by name", inputSchema: { type: "object", properties: { name: { type: "string" } }, required: ["name"] } },
+  { name: "ecmr_categories_list", description: "List goods categories (PROD ONLY)", inputSchema: { type: "object" } },
+  { name: "ecmr_categories_find", description: "Find category by name (PROD ONLY)", inputSchema: { type: "object", properties: { name: { type: "string" } }, required: ["name"] } },
 
   // ============================================================
   // COUNTRY - Country list
@@ -138,11 +131,18 @@ export const toolDefinitions = [
   { name: "ecmr_country_list", description: "List countries", inputSchema: { type: "object" } },
 
   // ============================================================
-  // BILLING / PRICING
+  // COMPANY DATA (PROD ONLY - not in demo)
   // ============================================================
-  { name: "ecmr_pricing_tiers", description: "Get pricing tiers", inputSchema: { type: "object" } },
-  { name: "ecmr_billing_checkout", description: "Create checkout session", inputSchema: { type: "object", properties: { priceId: { type: "string" } }, required: ["priceId"] } },
-  { name: "ecmr_billing_portal", description: "Create billing portal session", inputSchema: { type: "object" } },
+  { name: "ecmr_company_get", description: "Get company data (PROD ONLY)", inputSchema: { type: "object" } },
+  { name: "ecmr_company_update", description: "Update company data (PROD ONLY)", inputSchema: { type: "object", properties: { name: { type: "string" }, cif: { type: "string" }, address: { type: "string" } } } },
+  { name: "ecmr_company_logo", description: "Upload company logo (PROD ONLY)", inputSchema: { type: "object", properties: { logo: { type: "string" } }, required: ["logo"] } },
+
+  // ============================================================
+  // BILLING / PRICING (PROD ONLY - not fully in demo)
+  // ============================================================
+  { name: "ecmr_pricing_tiers", description: "Get pricing tiers (PROD ONLY)", inputSchema: { type: "object" } },
+  { name: "ecmr_billing_checkout", description: "Create checkout session (PROD ONLY)", inputSchema: { type: "object", properties: { priceId: { type: "string" } }, required: ["priceId"] } },
+  { name: "ecmr_billing_portal", description: "Create billing portal session (PROD ONLY)", inputSchema: { type: "object" } },
   { name: "ecmr_billing_check_stripe", description: "Check Stripe subscription status", inputSchema: { type: "object" } },
 
   // ============================================================
