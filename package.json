@@ -1,6 +1,6 @@
 {
   "name": "@cargoffer/ecmr-mcp",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "MCP Server for Cargoffer ECMR API - Model Context Protocol",
   "main": "src/server.js",
   "type": "module",
@@ -19,7 +19,14 @@
     "ai agents",
     "llm tools",
     "cmr",
-    "digital waybill"
+    "digital waybill",
+    "shipping",
+    "freight documents",
+    "cargo manifest",
+    "truck transport",
+    "delivery note",
+    "digital shipping",
+    "freight forwarding"
   ],
   "author": "Cargoffer",
   "license": "MIT",
